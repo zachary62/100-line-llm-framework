@@ -7,9 +7,11 @@
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT"/></a>
 </div>
 
-Every program the book builds is a file in this repo, one folder per chapter. Nothing here is pseudocode: the chatbot is a chatbot, and the coding agent edits a real project and runs its tests. Each chapter folder has a README with the flow diagram and the output from my own run.
+Every program the book builds, one folder per chapter, all of it runnable.
 
-The framework underneath is [PocketFlow](https://github.com/The-Pocket/PocketFlow): 100 lines of Python, no dependencies. You can read all of it in one sitting.
+Nothing here is pseudocode: the chatbot is a chatbot, and the coding agent edits a real project and runs its tests. Each chapter folder has a README with the flow diagram and the output from my own run.
+
+It all runs on [PocketFlow](https://github.com/The-Pocket/PocketFlow): 100 lines of Python, no dependencies.
 
 ---
 
@@ -20,24 +22,22 @@ git clone https://github.com/zachary62/100-line-llm-framework
 cd 100-line-llm-framework
 pip install -r requirements.txt
 
-export GEMINI_API_KEY="your-key"     # any provider works, see below
-python call_llm.py                   # sanity check: prints a hello from both model tiers
+export GEMINI_API_KEY="your-key"
+python call_llm.py                   # sanity check
 
 python ch02-graph/chatbot.py         # a working chatbot, 30 lines
 python ch03-patterns/agent.py        # a ReAct agent that searches the web
 python ch05-deep-research/deep_research.py
 ```
 
-**Any provider works.** `call_llm.py` holds the only vendor code, about ten lines of it. Gemini is active; OpenAI, Anthropic, and local Ollama are in the same file, commented out. Swap the block and everything else keeps running.
+**Any provider works.** `call_llm.py` is the only file with vendor code, about ten lines of it. Gemini is active; OpenAI, Anthropic, and local Ollama sit in the same file, commented out. (Two chapter 6 examples call the provider's PDF and speech APIs directly, since they aren't text.)
 
-**Models are named by role, not version.** `FAST_MODEL`, `SMART_MODEL`, `EMBED_MODEL`, and `TTS_MODEL` live in `call_llm.py`, so a retired model is one edit, not a search across thirteen chapters:
+**Models are named by role, not version.** Override any of them without touching code:
 
 ```bash
 export FAST_MODEL=gemini-3.6-flash
 export SMART_MODEL=gemini-3.6-pro
 ```
-
-Two chapter 6 examples reach past `call_llm.py` on purpose, because they aren't text: `invoice_processing.py` reads a PDF and `notebook_lm.py` synthesizes two voices.
 
 ---
 
@@ -59,42 +59,6 @@ For what the book only mentions in passing (MCP, A2A, streaming, web front ends,
 
 ---
 
-## Checking the examples still run
-
-Every example in this repo runs in CI against a stub model, so no key and no spend:
-
-```bash
-python scripts/smoke_test.py          # 33/33 examples, about a minute
-python scripts/smoke_test.py ch03     # one chapter
-```
-
-The stub replies in whatever format each prompt asked for, so YAML parsing, tool calls, branch routing, and loop termination all get exercised for real. It can't judge answer quality; that's what chapter 13's evals are for.
-
----
-
-## Why 100 lines
-
-These numbers are measured, not quoted. `scripts/framework_audit.py` clones each framework at the pinned release and counts the Python that ships on PyPI:
-
-```bash
-python scripts/framework_audit.py --clone     # git only, nothing is installed
-```
-
-| Framework | Pinned at | Framework code installed | Packages installed |
-|---|---|---:|---:|
-| LangChain | 1.2.14 (2026-03-31) | 131,014 | 33 |
-| LangChain Classic | 1.0.3 | 53,839 | — |
-| CrewAI | 1.12.2 (2026-03-25) | 81,963 | 136 |
-| LangGraph | 1.1.4 (2026-03-31) | 33,826 | 31 |
-| deepagents | 0.4.12 (2026-03-20) | 7,402 | 50 |
-| AutoGen | 0.7.5 (2025-09-29) | 15,479 | 11 |
-| smolagents | 1.24.0 (2026-01-16) | 9,896 | — |
-| **PocketFlow** | — | **100** | **0** |
-
-LangChain's figure is the real total for `pip install langchain`, which also pulls in `langchain-core`, four `langgraph` packages, and `langsmith`. That's more Python than all of Django.
-
----
-
 ## The three ideas
 
 - **Node** — one unit of work, with three steps: `prep` reads from the shared store, `exec` does the work, `post` writes results back and returns an action string.
@@ -110,6 +74,17 @@ Every pattern in the book is those three ideas wired differently:
 <div align="center">
   <img src="./img/design.png" width="700"/>
 </div>
+
+---
+
+## Scripts
+
+```bash
+python scripts/smoke_test.py         # all 33 examples against a stub model, no key, no spend
+python scripts/framework_audit.py    # re-derives chapter 1's framework line counts
+```
+
+The smoke test runs in CI on every push. The stub replies in whatever format each prompt asked for, so YAML parsing, tool calls, branch routing, and loop termination all get exercised for real. It can't judge answer quality; that's what chapter 13's evals are for.
 
 ---
 
