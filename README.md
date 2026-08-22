@@ -7,9 +7,9 @@
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT"/></a>
 </div>
 
-Clone this and you can run every program in the book. There is one folder per chapter.
+Every AI product you have used is simpler than it looks. A chatbot is one node that calls the model and loops back every time you hit send. RAG is five nodes in a line: chunk, embed, store, retrieve, generate. A coding agent is that same loop with one branch, where the code either runs or you try again. Deep research is that branch nested inside itself. Frameworks bury that shape under a hundred thousand lines of their own code, so this book goes the other way. It takes a product that looks like magic, strips the abstractions off until only the graph is left, and rebuilds it from scratch in code you can read in one sitting. By the end you will have built a chatbot, a RAG pipeline, a research agent, and a coding agent, all of them running on the same 100 lines.
 
-None of it is pseudocode. The chatbot holds a real conversation, and the coding agent opens a real project, edits the files, and runs the tests. Each chapter folder has a README with the flow diagram and the output I got when I ran it.
+Every program in the book is here, one folder per chapter. None of it is pseudocode. The chatbot holds a real conversation, and the coding agent opens a real project, edits the files, and runs the tests. Each chapter folder has a README with the flow diagram and the output I got when I ran it.
 
 All of it runs on [PocketFlow](https://github.com/The-Pocket/PocketFlow), which is 100 lines of Python with no dependencies. You can read the whole file in an afternoon, and when you need it to behave differently you copy it into your own repo and edit it. There is no layer underneath to outgrow.
 
