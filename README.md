@@ -11,7 +11,7 @@ Every program the book builds, one folder per chapter, all of it runnable.
 
 Nothing here is pseudocode: the chatbot is a chatbot, and the coding agent edits a real project and runs its tests. Each chapter folder has a README with the flow diagram and the output from my own run.
 
-It all runs on [PocketFlow](https://github.com/The-Pocket/PocketFlow): 100 lines of Python, no dependencies.
+It all runs on [PocketFlow](https://github.com/The-Pocket/PocketFlow): 100 lines of Python, no dependencies. That's small enough to read in an afternoon and paste into your own repo, with no layer to outgrow.
 
 ---
 
@@ -69,7 +69,7 @@ For what the book only mentions in passing (MCP, A2A, streaming, web front ends,
   <img src="./img/abstraction.png" width="700"/>
 </div>
 
-Every pattern in the book is those three ideas wired differently:
+Every pattern in the book is those three ideas wired differently: a chatbot is a loop, RAG is a chain, and an agent is a loop with a branch.
 
 <div align="center">
   <img src="./img/design.png" width="700"/>
