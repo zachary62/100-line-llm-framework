@@ -7,9 +7,9 @@
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT"/></a>
 </div>
 
-Every program the book builds is a file in this repo, organized by chapter and runnable in one command. Nothing here is pseudocode: the chatbot is a chatbot, the coding agent edits a real project and runs its tests, and each chapter folder has a README with the flow diagram and the output I got when I ran it. Chapters 8, 9, 11, 12, and 13 have no folder because they don't build new programs, they change the prompts, tools, context, and process around the ones you already ran.
+Every program the book builds is a file in this repo, one folder per chapter. Nothing here is pseudocode: the chatbot is a chatbot, and the coding agent edits a real project and runs its tests. Each chapter folder has a README with the flow diagram and the output from my own run.
 
-The framework underneath all of it is [PocketFlow](https://github.com/The-Pocket/PocketFlow): 100 lines of Python, no dependencies, no vendor lock-in, no hidden control flow. You can read the whole thing before your coffee gets cold.
+The framework underneath is [PocketFlow](https://github.com/The-Pocket/PocketFlow): 100 lines of Python, no dependencies. You can read all of it in one sitting.
 
 ---
 
@@ -28,14 +28,16 @@ python ch03-patterns/agent.py        # a ReAct agent that searches the web
 python ch05-deep-research/deep_research.py
 ```
 
-**Any provider works.** `call_llm.py` is the only file that knows about a model vendor for text, and it's about ten lines. The two exceptions are the chapter 6 examples that aren't text at all: `invoice_processing.py` reads a PDF and `notebook_lm.py` synthesizes two voices, and both call the provider's multimodal API directly. The examples were run on Gemini, and OpenAI, Anthropic, and local Ollama versions are sitting in the same file, commented out. Swap the block, keep everything else.
+**Any provider works.** `call_llm.py` holds the only vendor code, about ten lines of it. Gemini is active; OpenAI, Anthropic, and local Ollama are in the same file, commented out. Swap the block and everything else keeps running.
 
-**Model IDs change; roles don't.** `call_llm.py` defines `FAST_MODEL` (drafting, classification), `SMART_MODEL` (judging, planning), `EMBED_MODEL`, and `TTS_MODEL`, and every example calls those names. When a provider retires a model, you edit one line here rather than hunting through thirteen chapters. Override without touching code:
+**Models are named by role, not version.** `FAST_MODEL`, `SMART_MODEL`, `EMBED_MODEL`, and `TTS_MODEL` live in `call_llm.py`, so a retired model is one edit, not a search across thirteen chapters:
 
 ```bash
 export FAST_MODEL=gemini-3.6-flash
 export SMART_MODEL=gemini-3.6-pro
 ```
+
+Two chapter 6 examples reach past `call_llm.py` on purpose, because they aren't text: `invoice_processing.py` reads a PDF and `notebook_lm.py` synthesizes two voices.
 
 ---
 
@@ -51,7 +53,9 @@ export SMART_MODEL=gemini-3.6-pro
 | 7. Prompt engineering | [`ch07-prompt-engineering/`](./ch07-prompt-engineering) | The same prompt in three versions, showing what domain knowledge does to the output |
 | 10. Coding agent | [`ch10-coding-agent/`](./ch10-coding-agent) | Four versions of a coding agent, from the naive three-tool loop to one with edit-by-diff, two-pass reading, and safety rails, editing a real test project |
 
-For the topics the book only mentions in passing (MCP, A2A, streaming, FastAPI and Gradio and Streamlit front ends, tracing, voice chat, text-to-speech), the [PocketFlow cookbook](https://github.com/The-Pocket/PocketFlow/tree/main/cookbook) has a worked example of each.
+Chapters 8, 9, 11, 12, and 13 have no folder. They don't build new programs; they change the prompts, tools, context, and process around the ones you already ran.
+
+For what the book only mentions in passing (MCP, A2A, streaming, web front ends, tracing, voice chat), the [PocketFlow cookbook](https://github.com/The-Pocket/PocketFlow/tree/main/cookbook) has a worked example of each.
 
 ---
 
@@ -64,15 +68,13 @@ python scripts/smoke_test.py          # 33/33 examples, about a minute
 python scripts/smoke_test.py ch03     # one chapter
 ```
 
-The stub answers in whatever format each prompt asked for, which means YAML parsing,
-JSON tool calls, branch routing, and loop termination all get exercised for real. What
-it can't check is answer quality, which is what chapter 13's evals are for.
+The stub replies in whatever format each prompt asked for, so YAML parsing, tool calls, branch routing, and loop termination all get exercised for real. It can't judge answer quality; that's what chapter 13's evals are for.
 
 ---
 
 ## Why 100 lines
 
-Most LLM frameworks ship six figures of code, most of which is application wrappers and vendor bindings you didn't ask for. The table below is measured, not quoted: `scripts/framework_audit.py` clones each framework at the pinned release, counts non-blank, non-comment Python in the packages that ship on PyPI, and resolves the package count from each project's own lock file.
+These numbers are measured, not quoted. `scripts/framework_audit.py` clones each framework at the pinned release and counts the Python that ships on PyPI:
 
 ```bash
 python scripts/framework_audit.py --clone     # git only, nothing is installed
@@ -89,7 +91,7 @@ python scripts/framework_audit.py --clone     # git only, nothing is installed
 | smolagents | 1.24.0 (2026-01-16) | 9,896 | — |
 | **PocketFlow** | — | **100** | **0** |
 
-LangChain's number is the honest total for `pip install langchain`, which also installs `langchain-core`, four `langgraph` packages, and `langsmith`. That's more Python than all of Django. The script scores PocketFlow at 88 because it ignores blank and comment lines; the file itself is 100 lines.
+LangChain's figure is the real total for `pip install langchain`, which also pulls in `langchain-core`, four `langgraph` packages, and `langsmith`. That's more Python than all of Django.
 
 ---
 

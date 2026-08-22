@@ -1,8 +1,11 @@
 """Section 3.4: Self-Healing — generate mermaid, compile, fix errors, retry"""
-import sys, os, subprocess, tempfile
+import sys, os, shutil, subprocess, tempfile
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from pocketflow import Node, Flow
 from call_llm import call_llm
+
+# Use the installed CLI if there is one; otherwise npx fetches it on first run.
+MMDC = ["mmdc"] if shutil.which("mmdc") else ["npx", "--yes", "@mermaid-js/mermaid-cli"]
 
 class WriteChart(Node):
     def prep(self, shared):
@@ -31,8 +34,8 @@ class CompileChart(Node):
             mmd_path = f.name
         svg_path = mmd_path.replace(".mmd", ".svg")
         result = subprocess.run(
-            ["npx", "--no-install", "mmdc", "-i", mmd_path, "-o", svg_path],
-            capture_output=True, text=True, timeout=60
+            [*MMDC, "-i", mmd_path, "-o", svg_path],
+            capture_output=True, text=True, timeout=180
         )
         os.unlink(mmd_path)
         if os.path.exists(svg_path):
@@ -61,17 +64,8 @@ class CompileChart(Node):
             return "done"
         return "fix" if len(shared["attempts"]) < 3 else "done"
 
-def mermaid_cli_available():
-    """The compiler this example loops against is a Node package, not a Python one."""
-    try:
-        r = subprocess.run(["npx", "--no-install", "mmdc", "--version"],
-                           capture_output=True, text=True, timeout=60)
-        return r.returncode == 0
-    except (OSError, subprocess.TimeoutExpired):
-        return False
-
-if not mermaid_cli_available():
-    print("This example needs the mermaid CLI, which is a Node package:")
+if not shutil.which("mmdc") and not shutil.which("npx"):
+    print("This example needs the mermaid CLI, a Node package:")
     print("    npm install -g @mermaid-js/mermaid-cli")
     print("Everything else in this chapter runs without it.")
     sys.exit(0)
