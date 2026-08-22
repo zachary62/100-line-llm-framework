@@ -7,11 +7,11 @@
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT"/></a>
 </div>
 
-Every program the book builds, one folder per chapter, all of it runnable.
+Clone this and you can run every program in the book. There is one folder per chapter.
 
-Nothing here is pseudocode: the chatbot is a chatbot, and the coding agent edits a real project and runs its tests. Each chapter folder has a README with the flow diagram and the output from my own run.
+None of it is pseudocode. The chatbot holds a real conversation, and the coding agent opens a real project, edits the files, and runs the tests. Each chapter folder has a README with the flow diagram and the output I got when I ran it.
 
-It all runs on [PocketFlow](https://github.com/The-Pocket/PocketFlow): 100 lines of Python, no dependencies. That's small enough to read in an afternoon and paste into your own repo, with no layer to outgrow.
+All of it runs on [PocketFlow](https://github.com/The-Pocket/PocketFlow), which is 100 lines of Python with no dependencies. You can read the whole file in an afternoon, and when you need it to behave differently you copy it into your own repo and edit it. There is no layer underneath to outgrow.
 
 ---
 
