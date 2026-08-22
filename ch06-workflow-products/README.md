@@ -71,12 +71,42 @@ Jamie: Wow, that's elegant. And all AI products are just five patterns?
 
 ### text_to_sql.py
 ```
-(pending re-record: this file was rebuilt to match the chapter listings exactly, so its recorded output lands with the next live run)
+Q: How much revenue came from completed orders?
+A: The revenue from completed orders was $389.93.
+
+Q: Which customer spent the most?
+A: Dave spent the most.
 ```
 
 ### codebase_knowledge.py
 ```
-(pending re-record: added to match listings 6.10-6.13, so its recorded output lands with the next live run)
+===== Chapter 1: BaseNode =====
+## Chapter 1: BaseNode - The Workflow's First Step
+
+Welcome to the foundation of our workflow system! Every powerful process, no matter how complex, is built from simple, repeatable steps. In our system, these fundamental steps are called **Nodes**, and the blueprint for all of them is the `BaseNode`.
+
+Imagine building something with LEGOs. Before you can construct a grand castle or a spaceship, y ...
+
+===== Chapter 2: _ConditionalTransition =====
+## Chapter 2: ConditionalTransition
+
+In Chapter 1, we learned about `BaseNode`, the fundamental building block of our workflow system. We saw how nodes can process data and, optionally, point to a `next_node` to continue the workflow in a simple, linear fashion. But what if your workflow isn't always a straight line? What if your nodes need to make decisions and branch off into different paths bas ...
+
+===== Chapter 3: Node =====
+In the previous chapters, we introduced the `BaseNode`, the fundamental building block of our workflow, representing an atomic step, and explored `_ConditionalTransition` for directing workflow paths. While `BaseNode` is great for defining what a step *does*, it has a crucial limitation: what happens if the logic inside its `_run` method encounters an error? Currently, it would simply fail, potent ...
+
+===== Chapter 4: Flow =====
+# Chapter 4: Flow
+
+Welcome back! In our previous chapters, we've explored `BaseNode` as the fundamental unit of work, `_ConditionalTransition` as the logic that decides the path forward, and `Node` as a concrete, actionable component. Now, it's time to bring all these pieces together with the **Flow**.
+
+## What is a Flow? The Grand Orchestrator
+
+Imagine you have a complex recipe. You have differen ...
+
+===== Chapter 5: BatchNode =====
+## Chapte
+[...]
 ```
 
 ### lead_gen.py

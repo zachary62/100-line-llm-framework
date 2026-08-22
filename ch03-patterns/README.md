@@ -91,7 +91,7 @@ under 30 seconds while chimps average two minutes. 🐙 #AnimalIntelligence
 
 ### agent.py
 ```
-(pending re-record: this file was rebuilt to match the chapter listings exactly, so its recorded output lands with the next live run)
+Tim Cook is the CEO of Apple, the company that makes the iPhone.
 ```
 
 ### guardrail.py

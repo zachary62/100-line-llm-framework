@@ -48,12 +48,16 @@ graph LR
 
 ### rag_pipeline.py
 ```
-(pending re-record: this file was rebuilt to match the chapter listings exactly, so its recorded output lands with the next live run)
+Indexed 5 chunks
+Q: How does a Node handle failures?
+A: When a Node must handle a failure, only the `exec` step is retried.
 ```
 
 ### rag_embeddings.py
 ```
-(pending re-record: split out from the old combined pipeline, so its recorded output lands with the next live run)
+Indexed 5 chunks
+Q: How does a Node handle failures?
+A: Only exec is retried when a Node must handle a failure.
 ```
 
 ### agentic_rag.py
