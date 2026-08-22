@@ -4,9 +4,9 @@ Listings 4.2 through 4.7 in chapter 4.
 """
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+import json
 from pocketflow import Node, Flow
 from call_llm import call_llm
-import json
 
 def word_overlap(text_a, text_b):
     words_a = set(text_a.lower().split())

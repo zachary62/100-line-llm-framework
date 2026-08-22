@@ -1,9 +1,9 @@
 """Section 4.5: Agentic RAG — agent reads summaries, decides what to dive into"""
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+import yaml
 from pocketflow import Node, Flow
 from call_llm import call_llm
-import yaml
 
 DOCS = {
     "overview": "PocketFlow is a 100-line LLM framework. Core abstraction: Graph with Nodes and Flows. Zero dependencies.",
