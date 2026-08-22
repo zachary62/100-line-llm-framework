@@ -61,7 +61,9 @@ class SearchNode(Node):
 
 decide = DecideNode()
 search = SearchNode()
+answer = Node()  # explicit exit: "answer" routes here and the flow ends cleanly
 decide - "search" >> search
+decide - "answer" >> answer
 search >> decide
 
 shared = {"question": "Who is the CEO of the company that makes the iPhone?"}
