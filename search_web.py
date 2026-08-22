@@ -1,6 +1,6 @@
 """Shared search utility — reused across chapters"""
 import requests
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 
 def search_web(query, max_results=3):
     results = DDGS().text(query, max_results=max_results)

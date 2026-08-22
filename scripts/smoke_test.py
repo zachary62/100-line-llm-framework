@@ -101,13 +101,13 @@ def install():
     call_llm.call_llm = _call_llm
     sys.modules["call_llm"] = call_llm
 
-    ddgs = types.ModuleType("duckduckgo_search")
+    ddgs = types.ModuleType("ddgs")
     class DDGS:
         def text(self, query, max_results=3):
             return [{"title": f"stub result {i}", "body": f"stub snippet for {query}",
                      "href": "https://example.com"} for i in range(max_results)]
     ddgs.DDGS = DDGS
-    sys.modules["duckduckgo_search"] = ddgs
+    sys.modules["ddgs"] = ddgs
 
     search = types.ModuleType("search_web")
     search.search_web = lambda query, max_results=3: f"[stub search results for {query}]"

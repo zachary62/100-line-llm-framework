@@ -13,7 +13,7 @@ class DraftEmail(Node):
         }
     def exec(self, inputs):
         topic, feedback = inputs["topic"], inputs["feedback"]
-        prompt = f"Draft a professional email about: {topic}."
+        prompt = f"Draft a professional email about: {topic}. Output only the email."
         if feedback:
             prompt += f"\n\nPrevious draft rejected: {feedback}"
         return call_llm(prompt)
@@ -31,6 +31,7 @@ Is it polite and professional?
 Output ONLY "APPROVE" or "REJECT: <reason>".""")
     def post(self, shared, prep_res, exec_res):
         shared["rounds"] = shared.get("rounds", 0) + 1
+        print(f"Round {shared['rounds']}: {exec_res.splitlines()[0][:90]}")
         if exec_res.strip().upper().startswith("APPROVE") or shared["rounds"] >= 3:
             return "approve"
         shared["feedback"] = exec_res

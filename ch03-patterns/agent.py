@@ -44,8 +44,8 @@ Previous search results:
         return exec_res["action"]
 
 def search_web(query):
-    """Search DuckDuckGo — pip install duckduckgo-search"""
-    from duckduckgo_search import DDGS
+    """Search DuckDuckGo — pip install ddgs"""
+    from ddgs import DDGS
     results = DDGS().text(query, max_results=2)
     return "\n\n".join(
         f"Title: {r['title']}\nSnippet: {r['body']}" for r in results

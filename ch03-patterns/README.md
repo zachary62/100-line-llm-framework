@@ -96,7 +96,9 @@ Tim Cook is the CEO of Apple, the company that makes the iPhone.
 
 ### guardrail.py
 ```
-(pending re-record: this file was rebuilt to match the chapter listings exactly, so its recorded output lands with the next live run)
+Round 1: REJECT: The email is not polite or professional. Its tone is overly aggressive and demandi
+Round 2: APPROVE
+Email sent!
 ```
 
 ### judge.py

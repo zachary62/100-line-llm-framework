@@ -3,6 +3,6 @@ google-genai>=1.0.0        # the LLM + embedding + TTS calls in call_llm.py
 pyyaml>=6.0                # structured output (chapter 2 onward)
 numpy>=1.26                # cosine similarity for RAG (chapter 4)
 requests>=2.31             # full-page fetch in search_web.py (chapters 3 and 5)
-duckduckgo-search>=6.0     # the search tool in search_web.py (chapters 3 and 5)
+ddgs>=9.0                  # the search tool in search_web.py (chapters 3 and 5)
 fpdf2>=2.7                 # generates the sample invoice PDF (chapter 6)
 pytest>=8.0                # the coding agent runs these tests (chapter 10)
