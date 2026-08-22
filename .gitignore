@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.venv/
+venv/
+
+# written by the examples when you run them, not shipped
+index.json
+.pytest_cache/
+scripts/_smokestub.py
+ch04-rag/index.json
+ch06-workflow-products/shop.db
+ch06-workflow-products/invoice.pdf
+ch06-workflow-products/podcast.wav
+ch10-coding-agent/test_project/
