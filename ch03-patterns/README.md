@@ -49,7 +49,9 @@ graph LR
 ### debate.py
 ```mermaid
 graph LR
-    for_[AdvocateFor] --> against[AdvocateAgainst] --> judge[JudgeDebate]
+    for_[AdvocateFor] --> against[AdvocateAgainst]
+    against -->|continue| for_
+    against -->|done| judge[JudgeDebate]
 ```
 
 ### chain_of_thought.py
@@ -122,14 +124,14 @@ Consensus: negative
 
 ### debate.py
 ```
---- FOR ---
-Rewriting in Rust would deliver significantly improved performance and memory safety...
-
---- AGAINST ---
-A full rewrite incurs immense development costs, potential for new bugs, and delays...
-
---- VERDICT ---
-The AGAINST argument is stronger — practical costs and risks outweigh theoretical gains.
+[FOR]
+Alright team, I understand the inherent caution when discussing a rewrite, and the cost/time investment is not something to be taken lightly. However, we're at ...
+[AGAINST]
+Alright team, I appreciate the thorough presentation of the arguments for Rust. It's clear that Rust offers compelling technical advantages in specific domains,...
+(...three rounds of argument...)
+VERDICT:
+The "AGAINST" argument is stronger because it consistently grounds its points in the
+practical realities and strategic priorities of a business. [...]
 ```
 
 ### chain_of_thought.py

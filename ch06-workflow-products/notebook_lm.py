@@ -111,7 +111,7 @@ class AudioStudio(Node):
         print(f"  Audio saved to {out}")
 
 analyze = AnalyzeDocs()
-write = WriteScript()
+write = WriteScript(max_retries=3)   # the asserts only retry if the node is allowed to
 tts = AudioStudio()
 
 analyze >> write >> tts

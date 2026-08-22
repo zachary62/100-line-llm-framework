@@ -58,23 +58,27 @@ class WriteChapter(Node):
         idx = shared["current_idx"]
         chapter = shared["chapters"][idx]
         prev = "\n".join(
-            f"Chapter {i+1}: {c['title']}"
+            f"Chapter {i+1}: {c['title']} — {c['description']}"
             for i, c in enumerate(shared["chapters"][:idx])
         )
-        return chapter, prev
+        return chapter, shared["files_text"], prev  #A
 
     def exec(self, inputs):
-        chapter, prev = inputs
+        chapter, files_text, prev = inputs
         prompt = f"""Write a beginner-friendly tutorial chapter.
 
 Chapter: {chapter['title']}
 Description: {chapter['description']}
 
+Source files:
+{files_text}
+
 Previous chapters covered:
 {prev or '(This is the first chapter)'}
 
-Write a clear explanation with code snippets. Explain what the code does
-and why it's designed this way. End with a one-paragraph summary."""
+Write a clear explanation with code snippets from the source files.
+Explain what the code does and why it's designed this way.
+End with a one-paragraph summary."""
         return call_llm(prompt)
 
     def post(self, shared, prep_res, exec_res):

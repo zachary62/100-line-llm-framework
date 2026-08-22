@@ -105,9 +105,9 @@ class SQLExecutor(Node):
         if exec_res.get("success"):
             shared["results"] = exec_res["data"]
             return "success"
-        else:
-            shared["error_msg"] = exec_res["error"]
-            return "error"
+        shared["error_msg"] = exec_res["error"]
+        shared["fix_attempts"] = shared.get("fix_attempts", 0) + 1
+        return "error" if shared["fix_attempts"] <= 3 else "give_up"
 
 class SQLDebugger(Node):
     def prep(self, shared):
@@ -133,8 +133,7 @@ Return ONLY the fixed SQL."""
 
     def post(self, shared, prep_res, exec_res):
         shared["sql_query"] = exec_res.replace("```sql", "").replace("```", "").strip()
-        shared["fix_attempts"] = shared.get("fix_attempts", 0) + 1
-        return "retry" if shared["fix_attempts"] < 3 else "give_up"
+        return "retry"
 
 class AnswerFormatter(Node):
     def prep(self, shared):
@@ -160,9 +159,9 @@ formatter = AnswerFormatter()
 
 fetcher >> generator >> executor
 executor - "success" >> formatter
-executor - "error" >> debugger
-debugger - "retry" >> executor
-debugger - "give_up" >> formatter
+executor - "error"   >> debugger
+executor - "give_up" >> formatter
+debugger - "retry"   >> executor
 
 sql_agent = Flow(start=fetcher)
 
