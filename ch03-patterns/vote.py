@@ -8,18 +8,15 @@ import yaml
 
 class ClassifyMultiple(BatchNode):
     def prep(self, shared):
-        return [shared["text"]] * 5
+        return [shared["review"]] * 5
 
-    def exec(self, text):
-        from google.genai.types import GenerateContentConfig
-        from call_llm import client, FAST_MODEL
-        resp = client.models.generate_content(
-            model=FAST_MODEL,
-            contents=f"Is this restaurant review positive or negative? Respond in yaml:\n"
-                     f"```yaml\nsentiment: positive/negative\nreason: one sentence why\n```\n\n{text}",
-            config=GenerateContentConfig(temperature=1.5),
-        ).text
-        yaml_str = resp.split("```yaml")[1].split("```")[0].strip()
+    def exec(self, review):
+        response = call_llm(
+            f"Is this restaurant review positive or negative?\n\n{review}\n\n"
+            f"```yaml\nsentiment: positive or negative\nreason: one sentence why\n```",
+            temperature=1.5
+        )
+        yaml_str = response.split("```yaml")[1].split("```")[0].strip()
         return yaml.safe_load(yaml_str)
 
     def post(self, shared, prep_res, exec_res):
@@ -38,7 +35,7 @@ classify = ClassifyMultiple(max_retries=3)
 pick = PickConsensus()
 classify >> pick
 
-shared = {"text": "The sushi here is the real deal — fresh fish, skilled chef, beautiful presentation. But we waited 20 min for water, they forgot our appetizer, and the bill was wrong. Hard to say how I feel about this place."}
+shared = {"review": "The sushi here is the real deal — fresh fish, skilled chef, beautiful presentation. But we waited 20 min for water, they forgot our appetizer, and the bill was wrong. Hard to say how I feel about this place."}
 Flow(start=classify).run(shared)
 for i, v in enumerate(shared["votes"]):
     print(f"  Vote {i+1}: {v['sentiment']} — {v['reason']}")

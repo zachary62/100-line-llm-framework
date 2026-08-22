@@ -31,8 +31,8 @@ class CompileChart(Node):
             mmd_path = f.name
         svg_path = mmd_path.replace(".mmd", ".svg")
         result = subprocess.run(
-            ["npx", "--yes", "@mermaid-js/mermaid-cli", "-i", mmd_path, "-o", svg_path],
-            capture_output=True, text=True, timeout=30
+            ["npx", "--no-install", "mmdc", "-i", mmd_path, "-o", svg_path],
+            capture_output=True, text=True, timeout=60
         )
         os.unlink(mmd_path)
         if os.path.exists(svg_path):
@@ -60,6 +60,21 @@ class CompileChart(Node):
             print("Max retries reached.")
             return "done"
         return "fix" if len(shared["attempts"]) < 3 else "done"
+
+def mermaid_cli_available():
+    """The compiler this example loops against is a Node package, not a Python one."""
+    try:
+        r = subprocess.run(["npx", "--no-install", "mmdc", "--version"],
+                           capture_output=True, text=True, timeout=60)
+        return r.returncode == 0
+    except (OSError, subprocess.TimeoutExpired):
+        return False
+
+if not mermaid_cli_available():
+    print("This example needs the mermaid CLI, which is a Node package:")
+    print("    npm install -g @mermaid-js/mermaid-cli")
+    print("Everything else in this chapter runs without it.")
+    sys.exit(0)
 
 write = WriteChart()
 compile = CompileChart()

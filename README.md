@@ -28,7 +28,7 @@ python ch03-patterns/agent.py        # a ReAct agent that searches the web
 python ch05-deep-research/deep_research.py
 ```
 
-**Any provider works.** `call_llm.py` is the only file that knows about a model vendor, and it's about ten lines. The examples were run on Gemini, and OpenAI, Anthropic, and local Ollama versions are sitting in the same file, commented out. Swap the block, keep everything else.
+**Any provider works.** `call_llm.py` is the only file that knows about a model vendor for text, and it's about ten lines. The two exceptions are the chapter 6 examples that aren't text at all: `invoice_processing.py` reads a PDF and `notebook_lm.py` synthesizes two voices, and both call the provider's multimodal API directly. The examples were run on Gemini, and OpenAI, Anthropic, and local Ollama versions are sitting in the same file, commented out. Swap the block, keep everything else.
 
 **Model IDs change; roles don't.** `call_llm.py` defines `FAST_MODEL` (drafting, classification), `SMART_MODEL` (judging, planning), `EMBED_MODEL`, and `TTS_MODEL`, and every example calls those names. When a provider retires a model, you edit one line here rather than hunting through thirteen chapters. Override without touching code:
 
