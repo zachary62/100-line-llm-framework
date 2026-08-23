@@ -56,6 +56,12 @@ Vendor code lives in `call_llm.py`, about ten lines of it. Gemini runs by defaul
 
 Every pattern in the book is those three ideas wired differently: a chatbot is a loop, RAG is a chain, and an agent is a loop with a branch.
 
+The same graph ships inside every major framework, pinned here by commit so the lines hold:
+[OpenAI Agents SDK](https://github.com/openai/openai-agents-python/blob/48ff99bb736249e99251eb2c7ecf00237488c17a/src/agents/run.py#L119) ·
+[Pydantic AI](https://github.com/pydantic/pydantic-ai/blob/4c0f384a0626299382c22a8e3372638885e18286/pydantic_ai_slim/pydantic_ai/_agent_graph.py#L779) ·
+[LangChain 1.2.14](https://github.com/langchain-ai/langchain/blob/90087ce6bf/libs/langchain/langchain_classic/agents/agent_iterator.py#L173) ·
+[LangGraph 1.1.4](https://github.com/langchain-ai/langgraph/blob/5c9c1d59/libs/prebuilt/langgraph/prebuilt/chat_agent_executor.py#L789)
+
 <div align="center">
   <img src="./img/design.png" width="700"/>
 </div>
