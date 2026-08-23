@@ -33,16 +33,18 @@ import tomllib
 SKIP_DIRS = {"tests", "test", "docs", "examples", "scripts", "benchmarks", "bench"}
 
 # Repos, each pinned to the last stable release of Q1 2026.
+# name: (repo, release tag, commit the tag pointed to when measured).
+# The checkout uses the commit, because a tag can be moved and a commit can't.
 REPOS = {
-    "langchain": ("https://github.com/langchain-ai/langchain", "langchain==1.2.14"),
-    "langgraph": ("https://github.com/langchain-ai/langgraph", "1.1.4"),
-    "langsmith-sdk": ("https://github.com/langchain-ai/langsmith-sdk", "v0.7.23"),
-    "langchain-community": ("https://github.com/langchain-ai/langchain-community", "libs/community/v0.4.1"),
-    "deepagents": ("https://github.com/langchain-ai/deepagents", "deepagents==0.4.12"),
-    "crewAI": ("https://github.com/crewAIInc/crewAI", "1.12.2"),
-    "autogen": ("https://github.com/microsoft/autogen", "python-v0.7.5"),
-    "smolagents": ("https://github.com/huggingface/smolagents", "v1.24.0"),
-    "PocketFlow": ("https://github.com/The-Pocket/PocketFlow", "main"),
+    "langchain": ("https://github.com/langchain-ai/langchain", "langchain==1.2.14", "90087ce6bf"),
+    "langgraph": ("https://github.com/langchain-ai/langgraph", "1.1.4", "5c9c1d598d"),
+    "langsmith-sdk": ("https://github.com/langchain-ai/langsmith-sdk", "v0.7.23", "9530f8b6a7"),
+    "langchain-community": ("https://github.com/langchain-ai/langchain-community", "libs/community/v0.4.1", "39be54ca85"),
+    "deepagents": ("https://github.com/langchain-ai/deepagents", "deepagents==0.4.12", "ad7afc0bd3"),
+    "crewAI": ("https://github.com/crewAIInc/crewAI", "1.12.2", "6193e082e1"),
+    "autogen": ("https://github.com/microsoft/autogen", "python-v0.7.5", "83afbf5857"),
+    "smolagents": ("https://github.com/huggingface/smolagents", "v1.24.0", "4e18069c71"),
+    "PocketFlow": ("https://github.com/The-Pocket/PocketFlow", "main", "f74d023f"),
 }
 
 # label -> (pinned version, [vendor-authored package dirs], lock file, lock root)
@@ -80,15 +82,17 @@ FRAMEWORKS = [
 
 
 def clone(base):
-    for name, (url, tag) in REPOS.items():
+    for name, (url, tag, commit) in REPOS.items():
         into = base / name
         if not into.exists():
             print(f"# cloning {name}", file=sys.stderr)
             subprocess.run(["git", "clone", "--filter=blob:none", "-q", url, str(into)], check=True)
         subprocess.run(["git", "-C", str(into), "fetch", "--tags", "-q"], check=False)
-        r = subprocess.run(["git", "-C", str(into), "checkout", "-q", tag])
+        r = subprocess.run(["git", "-C", str(into), "checkout", "-q", commit])
+        if r.returncode:  # shallow mirror or GC'd commit: fall back to the tag
+            r = subprocess.run(["git", "-C", str(into), "checkout", "-q", tag])
         if r.returncode:
-            print(f"# WARNING: {name} has no tag {tag}, left at HEAD", file=sys.stderr)
+            print(f"# WARNING: {name} has neither commit {commit} nor tag {tag}, left at HEAD", file=sys.stderr)
 
 
 def count_loc(root):
