@@ -57,9 +57,9 @@ class WriteChapter(Node):
     def prep(self, shared):
         idx = shared["current_idx"]
         chapter = shared["chapters"][idx]
-        prev = "\n".join(
-            f"Chapter {i+1}: {c['title']} — {c['description']}"
-            for i, c in enumerate(shared["chapters"][:idx])
+        prev = "\n\n".join(
+            f"Chapter {i+1}: {shared['chapters'][i]['title']}\n{w[:500]}"
+            for i, w in enumerate(shared["written"])
         )
         return chapter, shared["files_text"], prev  #A
 

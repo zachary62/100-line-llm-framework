@@ -24,7 +24,7 @@ class Chunk(Node):
         chunks = []
         for doc in docs:
             words = doc.split()
-            for i in range(0, len(words), 200):
+            for i in range(0, max(len(words) - 50, 1), 200):
                 chunks.append(" ".join(words[i:i+250]))
         return chunks
     def post(self, shared, prep_res, exec_res):

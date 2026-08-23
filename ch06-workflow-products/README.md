@@ -1,7 +1,7 @@
 # Chapter 6: Workflow Products
 
 - `notebook_lm.py` — Section 6.1: NotebookLM (Analyze docs → Write script → TTS)
-- `text_to_sql.py` — Section 6.2: Text to SQL (Schema → SQL → Execute → Debug loop, capped at 3 fix attempts)
+- `text_to_sql.py` — Section 6.2: Text to SQL (Schema → SQL → Execute → Debug loop: three repairs, give-up on the fourth failed run)
 - `codebase_knowledge.py` — Section 6.3: Codebase knowledge (Fetch → Plan → Write chapter, looping with carried context)
 - `lead_gen.py` — Section 6.4: Lead Gen (Scrape → Enrich → Score → Personalize emails)
 - `invoice_processing.py` — Section 6.5: Invoice Processing (PDF → Extract → Validate)
