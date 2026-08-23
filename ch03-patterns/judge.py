@@ -33,7 +33,8 @@ class Judge(Node):
         shared["feedback"] = exec_res
         shared["attempts"] = shared.get("attempts", 0) + 1
         if shared["attempts"] >= 3:
-            return "pass"
+            print("Three failed drafts — stopping for human review.")
+            return "give_up"
         return "fail"
 
 generator = Generator()

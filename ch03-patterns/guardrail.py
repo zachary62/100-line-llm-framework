@@ -32,8 +32,10 @@ Output ONLY "APPROVE" or "REJECT: <reason>".""")
     def post(self, shared, prep_res, exec_res):
         shared["rounds"] = shared.get("rounds", 0) + 1
         print(f"Round {shared['rounds']}: {exec_res.splitlines()[0][:90]}")
-        if exec_res.strip().upper().startswith("APPROVE") or shared["rounds"] >= 3:
+        if exec_res.strip().upper().startswith("APPROVE"):
             return "approve"
+        if shared["rounds"] >= 3:
+            return "give_up"
         shared["feedback"] = exec_res
         return "reject"
 
@@ -41,31 +43,29 @@ class SendEmail(Node):
     def exec(self, prep_res):
         print("Email sent!")
 
+class Escalate(Node):
+    def exec(self, prep_res):
+        print("Draft needs human review — not sent.")
+
 drafter = DraftEmail()
 supervisor = Supervisor()
 sender = SendEmail()
 
 drafter >> supervisor
-supervisor - "reject" >> drafter
+supervisor - "reject"  >> drafter
 supervisor - "approve" >> sender
+supervisor - "give_up" >> Escalate()
 
 Flow(start=drafter).run({"topic": "Demanding a refund immediately"})
 
 
 # Human in the loop: same graph, one node swapped.
-class HumanSupervisor(Node):
-    def prep(self, shared):
-        return shared["draft"]
+class HumanSupervisor(Supervisor):
     def exec(self, draft):
         print(f"\n--- REVIEW ---\n{draft}\n--------------")
         if input("Approve? (y/n): ").lower() == "y":
             return "APPROVE"
         return f"REJECT: {input('What needs fixing? ')}"
-    def post(self, shared, prep_res, exec_res):
-        if exec_res.strip().upper().startswith("APPROVE"):
-            return "approve"
-        shared["feedback"] = exec_res
-        return "reject"
 
 if __name__ == "__main__" and os.getenv("HUMAN_REVIEW"):
     drafter, supervisor, sender = DraftEmail(), HumanSupervisor(), SendEmail()
