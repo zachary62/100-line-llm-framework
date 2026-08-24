@@ -106,7 +106,7 @@ synthesizer = SynthesizerNode()
 planner >> researcher >> synthesizer
 synthesizer - "research" >> planner
 
-shared = {"topic": "PocketFlow LLM framework"}
+shared = {"topic": "PocketFlow, the 100-line minimalist LLM framework"}
 print(f"Researching: {shared['topic']}\n")
 Flow(start=planner).run(shared)
 print(f"\n--- Report ---\n{shared['report']}")

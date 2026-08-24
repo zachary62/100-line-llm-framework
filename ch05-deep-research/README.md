@@ -18,19 +18,18 @@ graph LR
 
 ### deep_research.py
 ```
-Researching: PocketFlow LLM framework
+Researching: PocketFlow, the 100-line minimalist LLM framework
 
-  Planner: ['PocketFlow LLM framework overview and features', 'PocketFlow LLM framework tutorial and implementation examples', 'PocketFlow LLM framework performance benchmarks on edge devices']
-  Synthesizer: gaps found — No relevant information on edge device performance benchmarks.
-  Planner: ['PocketFlow LLM framework edge device performance benchmarks', 'PocketFlow LLM framework inference speed latency power consumption edge', 'PocketFlow LLM framework resource-constrained device evaluation']
-  Synthesizer: gaps found — Missing power consumption benchmarks, accuracy trade-offs, specific use cases, and comparisons with alternatives.
-  Planner: ['PocketFlow LLM framework power consumption benchmarks accuracy trade-off', 'PocketFlow LLM framework real world applications case studies comparison', 'PocketFlow LLM framework integration challenges community support roadmap']
+  Planner: ['PocketFlow LLM framework GitHub', 'PocketFlow minimalist LLM framework 100 lines of code', 'how to use PocketFlow for LLM orchestration']
   Synthesizer: done
 
 --- Report ---
-## PocketFlow LLM Framework
+# PocketFlow: The 100-Line Minimalist LLM Framework — Comprehensive Research Report
 
-PocketFlow is an open-source framework for compressing and accelerating LLMs
-on edge devices. Benchmarks on Snapdragon 888: 4x faster inference, 60% reduced
-memory footprint. Techniques: quantization, pruning, knowledge distillation.
+## 1. Executive Summary & Core Definition
+PocketFlow is an ultra-lightweight, minimalist LLM orchestration framework
+designed around a **directed graph architecture**. True to its name, the core
+Python implementation spans roughly 100 lines of code, prioritizing absolute
+transparency, zero bloat, and zero vendor lock-in.
+[...]
 ```
