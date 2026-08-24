@@ -11,4 +11,5 @@ index.json
 scripts/_smokestub.py
 ch04-rag/index.json
 ch06-workflow-products/text-to-sql/shop.db
+ch06-workflow-products/codebase-knowledge/output/
 ch10-coding-agent/test_project/

@@ -15,7 +15,7 @@ REPO_PATH=/path/to/repo python main.py
 
 ## Sample output
 
-**Read the full result: [output/tutorial.md](output/tutorial.md)** — all 10 chapters (42KB) from a real run over the 100-line `pocketflow/` package. It opens like this:
+**Read the full result: [sample_output/tutorial.md](sample_output/tutorial.md)** — all 10 chapters (42KB) from a real run over the 100-line `pocketflow/` package. (Your own runs write to `output/tutorial.md`, so the sample stays untouched.) It opens like this:
 
 ```
 # Chapter 1: BaseNode
