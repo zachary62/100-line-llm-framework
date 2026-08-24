@@ -1,10 +1,8 @@
-"""Section 5.1-5.4: Deep Research — recursive map-reduce with search API"""
-import sys, os
+import sys, os, yaml
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from pocketflow import Node, BatchNode, Flow
+from pocketflow import Node, BatchNode
 from call_llm import call_llm
 from search_web import search_web
-import yaml
 
 class PlannerNode(Node):
     def prep(self, shared):
@@ -98,15 +96,3 @@ content: "the final report in markdown"
         shared["report"] = exec_res["content"]
         print("  Synthesizer: done")
         return "finalize"
-
-planner = PlannerNode()
-researcher = ResearcherNode()
-synthesizer = SynthesizerNode()
-
-planner >> researcher >> synthesizer
-synthesizer - "research" >> planner
-
-shared = {"topic": "PocketFlow, the 100-line minimalist LLM framework"}
-print(f"Researching: {shared['topic']}\n")
-Flow(start=planner).run(shared)
-print(f"\n--- Report ---\n{shared['report']}")

@@ -125,11 +125,12 @@ def main():
 
     (REPO / "scripts" / "_smokestub.py").write_text(STUB)
 
-    # Chapter folders hold either flat scripts (ch*/x.py) or one project folder
-    # per product (ch*/product/), where main.py is the entry point and the other
-    # modules (nodes.py, flow.py, utils.py) are imported by it, not run directly.
+    # Chapter folders hold either flat scripts (ch*/x.py) or project folders in
+    # the standard PocketFlow layout. A folder with a main.py is a project:
+    # main.py is the entry point and the other modules (nodes.py, flow.py,
+    # utils.py) are imported by it, not run directly.
     files = [p for p in sorted(REPO.glob("ch*/**/*.py"))
-             if (len(p.relative_to(REPO).parts) == 2 or p.name == "main.py")
+             if not ((p.parent / "main.py").exists() and p.name != "main.py")
              and str(p.relative_to(REPO)) not in SKIP and args.filter in str(p)]
 
     failures = []

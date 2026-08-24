@@ -1,13 +1,12 @@
 # Chapter 5: Deep Research
 
-- `deep_research.py` — Section 5.1-5.4: Deep Research pipeline (Planner → Researcher → Synthesizer loop)
+The Deep Research pipeline (Planner → Researcher → Synthesizer loop, sections 5.1-5.4) in the standard PocketFlow project layout: `main.py` (entry point and shared store), `flow.py` (wiring), `nodes.py` (the three nodes), and the high-level design in [docs/design.md](docs/design.md).
 
 Shared utility (at the repo root):
 - `search_web.py` — level 3 of the three search depths in section 5.2: DuckDuckGo for the URLs, then Jina Reader to crawl each page so the model reads full articles instead of snippets. Listings 5.2 and 5.3 show the two shallower options (raw snippets, and Gemini's Google Search grounding); swap either one in and nothing else changes, because the signature stays `search_web(query) -> str`.
 
 ## Flow
 
-### deep_research.py
 ```mermaid
 graph LR
     P[PlannerNode] --> R[ResearcherNode] --> S[SynthesizerNode]
@@ -16,7 +15,6 @@ graph LR
 
 ## Sample Output
 
-### deep_research.py
 ```
 Researching: PocketFlow, the 100-line minimalist LLM framework
 
