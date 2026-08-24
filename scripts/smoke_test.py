@@ -22,10 +22,9 @@ REPO = pathlib.Path(__file__).resolve().parent.parent
 # Scripts that talk to something other than an LLM (a real browser, a real PDF, a
 # real audio device) or that are interactive by design. Everything else runs.
 SKIP = {
-    "ch06-workflow-products/create_invoice_pdf.py",  # writes a PDF with fpdf2
-    "ch06-workflow-products/invoice_processing.py",  # needs that PDF and vision
-    "ch06-workflow-products/notebook_lm.py",         # needs the TTS endpoint
-    "ch10-coding-agent/setup_test_project.py",       # a fixture generator, run by the agents
+    "ch06-workflow-products/invoice-processing/main.py",  # needs the sample PDF and vision
+    "ch06-workflow-products/notebook-lm/main.py",         # needs the TTS endpoint
+    "ch10-coding-agent/setup_test_project.py",            # a fixture generator, run by the agents
 }
 
 STUB = r'''
@@ -126,8 +125,12 @@ def main():
 
     (REPO / "scripts" / "_smokestub.py").write_text(STUB)
 
-    files = [p for p in sorted(REPO.glob("ch*/*.py"))
-             if str(p.relative_to(REPO)) not in SKIP and args.filter in str(p)]
+    # Chapter folders hold either flat scripts (ch*/x.py) or one project folder
+    # per product (ch*/product/), where main.py is the entry point and the other
+    # modules (nodes.py, flow.py, utils.py) are imported by it, not run directly.
+    files = [p for p in sorted(REPO.glob("ch*/**/*.py"))
+             if (len(p.relative_to(REPO).parts) == 2 or p.name == "main.py")
+             and str(p.relative_to(REPO)) not in SKIP and args.filter in str(p)]
 
     failures = []
     for path in files:

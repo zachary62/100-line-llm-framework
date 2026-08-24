@@ -1,16 +1,8 @@
-"""Section 6.6: AI Newsletter — curate → filter → summarize → format"""
-import sys, os
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from pocketflow import Node, Flow
+import sys, os, yaml
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+from pocketflow import Node
 from call_llm import call_llm
 from search_web import search_web
-import yaml
-
-TOPICS = [
-    "AI agents framework news this week",
-    "LLM benchmark results 2025 2026",
-    "AI startup funding rounds this month",
-]
 
 class CurateSources(Node):
     def prep(self, shared):
@@ -85,15 +77,3 @@ class FormatNewsletter(Node):
         return f"# AI Weekly Digest\n\n{body}"
     def post(self, shared, prep_res, exec_res):
         shared["newsletter"] = exec_res
-
-curate = CurateSources()
-filter_node = FilterStories()
-summarize = SummarizeStories()
-format_node = FormatNewsletter()
-
-curate >> filter_node >> summarize >> format_node
-flow = Flow(start=curate)
-
-shared = {"topics": TOPICS}
-flow.run(shared)
-print(shared["newsletter"])

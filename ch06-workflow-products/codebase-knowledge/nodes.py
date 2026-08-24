@@ -1,12 +1,6 @@
-"""Section 6.3: Codebase knowledge — a loop that carries context forward.
-
-Listings 6.10 through 6.13 in chapter 6, assembled into one runnable file.
-Points at this repo's own pocketflow/ package by default, so it has something
-real to read without any setup.
-"""
 import sys, os, yaml
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from pocketflow import Node, Flow
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+from pocketflow import Node
 from call_llm import call_llm
 
 class FetchFiles(Node):
@@ -61,7 +55,7 @@ class WriteChapter(Node):
             f"Chapter {i+1}: {shared['chapters'][i]['title']}\n{w[:500]}"
             for i, w in enumerate(shared["written"])
         )
-        return chapter, shared["files_text"], prev  #A
+        return chapter, shared["files_text"], prev
 
     def exec(self, inputs):
         chapter, files_text, prev = inputs
@@ -87,20 +81,3 @@ End with a one-paragraph summary."""
         if shared["current_idx"] >= len(shared["chapters"]):
             return None
         return "next"
-
-fetch = FetchFiles()
-plan = PlanChapters()
-write = WriteChapter()
-
-fetch >> plan >> write
-write - "next" >> write
-
-flow = Flow(start=fetch)
-REPO = os.path.join(os.path.dirname(__file__), "..", "pocketflow")
-shared = {"repo_path": os.environ.get("REPO_PATH", REPO)}
-flow.run(shared)
-
-for i, chapter in enumerate(shared["chapters"]):
-    print(f"\n===== Chapter {i+1}: {chapter['title']} =====")
-    print(shared["written"][i][:400], "...")
-

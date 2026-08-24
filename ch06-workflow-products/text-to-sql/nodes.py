@@ -1,50 +1,7 @@
-"""Section 6.2: Text to SQL — schema, generate, execute, debug, answer.
-
-Listings 6.5 through 6.9 in chapter 6, assembled into one runnable file.
-The sample database is created on first run.
-"""
 import sys, os, sqlite3
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from pocketflow import Node, Flow
-from call_llm import call_llm
-
-DB_PATH = os.path.join(os.path.dirname(__file__), "shop.db")
-
-def setup_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.executescript("""
-        DROP TABLE IF EXISTS orders;
-        DROP TABLE IF EXISTS customers;
-        CREATE TABLE customers (
-            id INTEGER PRIMARY KEY, name TEXT, email TEXT, plan TEXT, signed_up DATE
-        );
-        CREATE TABLE orders (
-            id INTEGER PRIMARY KEY, customer_id INTEGER, product TEXT,
-            amount REAL, status TEXT, ordered_at DATE,
-            FOREIGN KEY (customer_id) REFERENCES customers(id)
-        );
-        INSERT INTO customers VALUES
-            (1,'Alice','alice@example.com','pro','2024-01-15'),
-            (2,'Bob','bob@example.com','free','2024-03-22'),
-            (3,'Carol','carol@example.com','pro','2024-02-10'),
-            (4,'Dave','dave@example.com','enterprise','2024-01-05'),
-            (5,'Eve','eve@example.com','free','2024-04-18');
-        INSERT INTO orders VALUES
-            (1,1,'Widget',29.99,'completed','2024-02-01'),
-            (2,1,'Gadget',49.99,'completed','2024-03-15'),
-            (3,2,'Widget',29.99,'refunded','2024-04-01'),
-            (4,3,'Gadget',49.99,'completed','2024-02-20'),
-            (5,3,'Gizmo',99.99,'completed','2024-03-10'),
-            (6,4,'Gizmo',99.99,'completed','2024-01-20'),
-            (7,4,'Widget',29.99,'completed','2024-02-15'),
-            (8,4,'Gadget',49.99,'pending','2024-04-25'),
-            (9,5,'Widget',29.99,'completed','2024-05-01');
-    """)
-    conn.commit()
-    conn.close()
-
-import sqlite3
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 from pocketflow import Node
+from call_llm import call_llm
 
 class SchemaFetcher(Node):
     def prep(self, shared):
@@ -150,29 +107,3 @@ class AnswerFormatter(Node):
 
     def post(self, shared, prep_res, exec_res):
         shared["answer"] = exec_res
-
-fetcher = SchemaFetcher()
-generator = SQLGenerator()
-executor = SQLExecutor()
-debugger = SQLDebugger()
-formatter = AnswerFormatter()
-
-fetcher >> generator >> executor
-executor - "success" >> formatter
-executor - "error"   >> debugger
-executor - "give_up" >> formatter
-debugger - "retry"   >> executor
-
-sql_agent = Flow(start=fetcher)
-
-
-setup_db()
-
-for question in [
-    "How much revenue came from completed orders?",
-    "Which customer spent the most?",
-]:
-    shared = {"db_path": DB_PATH, "question": question}
-    sql_agent.run(shared)
-    print(f"Q: {question}")
-    print(f"A: {shared['answer']}\n")

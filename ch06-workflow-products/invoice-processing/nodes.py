@@ -1,12 +1,8 @@
-"""Section 6.5: Invoice Processing — PDF in, structured data out"""
-import sys, os, pathlib
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from pocketflow import Node, Flow
+import sys, os, pathlib, yaml
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
+from pocketflow import Node
 from call_llm import client, FAST_MODEL
 from google.genai import types
-import yaml
-
-INVOICE_PDF = os.path.join(os.path.dirname(__file__), "invoice.pdf")
 
 class ExtractFields(Node):
     def prep(self, shared):
@@ -76,19 +72,3 @@ class Validate(Node):
             print(f"  Validation FAILED: {exec_res}")
         else:
             print("  Validation passed")
-
-extract = ExtractFields()
-validate = Validate()
-extract >> validate
-flow = Flow(start=extract)
-
-shared = {"pdf_path": INVOICE_PDF}
-flow.run(shared)
-
-data = shared["extracted"]
-print(f"\nInvoice: {data['invoice_number']}")
-print(f"Vendor: {data['vendor']} -> Customer: {data['customer']}")
-print(f"Items: {len(data['line_items'])}")
-for item in data["line_items"]:
-    print(f"  {item['quantity']}x {item['description']}: ${item['amount']:.2f}")
-print(f"Total: ${data['total']:.2f} (due {data['due_date']})")
