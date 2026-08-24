@@ -13,6 +13,8 @@ python main.py
 
 ## Sample output
 
+**Listen to it: [podcast.wav](podcast.wav)** — 72 seconds, two synthetic hosts, generated from the three sample docs. The script below is the exact conversation you'll hear.
+
 ```
 Audio saved to podcast.wav
 --- Podcast Script ---

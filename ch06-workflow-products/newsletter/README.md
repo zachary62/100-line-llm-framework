@@ -25,5 +25,12 @@ cost-performance ratios to help you route production traffic smarter and slash A
 ## 2. Google's A2A Standard and Model Context Protocol Join the Linux Foundation's Agentic AI Foundation
 The fragmented AI agent ecosystem just got a massive stability boost as Google and
 Anthropic unite their core protocols under neutral, enterprise-backed governance.
-[...]
+
+## 3. Yann LeCun's Advanced Machine Intelligence Raises $1.03 Billion Seed Round to Build AI World Models
+Yann LeCun's new venture just smashed records with a staggering $1.03B seed round,
+signaling a massive industry pivot toward physical-world AI reasoning.
+
+## 4. Alibaba Introduces Qwen-UI-Agent to Navigate Real-World Screens and Desktop Software
+Alibaba's new Qwen-UI-Agent can natively click, swipe, and navigate across any phone
+or desktop app, bringing us one step closer to truly autonomous digital workflows.
 ```

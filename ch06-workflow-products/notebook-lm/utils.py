@@ -1,5 +1,5 @@
 """TTS utility — swap for OpenAI or ElevenLabs by editing this one function."""
-import sys, os, base64
+import sys, os
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 from call_llm import client, TTS_MODEL
 from google.genai import types
@@ -17,8 +17,7 @@ def text_to_speech(text, voice):
             ),
         ),
     )
-    raw = resp.candidates[0].content.parts[0].inline_data.data
-    return base64.b64decode(raw)
+    return resp.candidates[0].content.parts[0].inline_data.data  # raw 24kHz 16-bit PCM
 
 if __name__ == "__main__":
     print(f"{len(text_to_speech('Hello from PocketFlow.', 'Kore'))} bytes of audio")

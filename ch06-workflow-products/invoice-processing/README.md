@@ -8,9 +8,10 @@ flowchart LR
 ```
 
 ```bash
-python create_invoice_pdf.py   # once, to generate the sample invoice.pdf
-python main.py
+python main.py   # the sample invoice.pdf is included
 ```
+
+The sample [invoice.pdf](invoice.pdf) ships with the repo; `create_invoice_pdf.py` regenerates it (needs `fpdf2`) if you want to tweak the numbers.
 
 ## Sample output
 

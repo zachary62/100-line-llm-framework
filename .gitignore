@@ -10,7 +10,5 @@ index.json
 .pytest_cache/
 scripts/_smokestub.py
 ch04-rag/index.json
-ch06-workflow-products/shop.db
-ch06-workflow-products/invoice.pdf
-ch06-workflow-products/podcast.wav
+ch06-workflow-products/text-to-sql/shop.db
 ch10-coding-agent/test_project/

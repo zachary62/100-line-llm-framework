@@ -15,26 +15,18 @@ REPO_PATH=/path/to/repo python main.py
 
 ## Sample output
 
+**Read the full result: [output/tutorial.md](output/tutorial.md)** — all 10 chapters (42KB) from a real run over the 100-line `pocketflow/` package. It opens like this:
+
 ```
-===== Chapter 1: BaseNode =====
-# Chapter: BaseNode
+# Chapter 1: BaseNode
 
-Welcome to the first chapter of the PocketFlow tutorial! In this chapter, we will
-explore **`BaseNode`**, the foundational building block of the entire library.
+Welcome to the first chapter of the PocketFlow tutorial! In this chapter, we
+will explore **`BaseNode`**, the foundational unit of execution that powers
+everything in PocketFlow.
 
-If PocketFlow is a city, a `BaseNode` is a standard building block—a self-contained
-unit of work that knows how to fetch its materials, perform a task, and clean up
-or report its results. ...
-
-===== Chapter 3: Node =====
-# Chapter: Node
-
-Welcome to the third chapter of the PocketFlow tutorial! In previous chapters, we
-learned how to build basic tasks with `BaseNode` and route workflows dynamically
-using `_ConditionalTransition`.
-
-However, in the real world, things fail. Network requests timeout, third-party
-APIs throw rate-limit errors, and databases temporarily drop connections. ...
-
-[...chapters 4 through 10 follow, each opening by recapping the previous ones...]
+Whether you are building a simple script or a complex multi-step workflow,
+understanding `BaseNode` is essential because every node in PocketFlow
+inherits its core behavior from this class.
 ```
+
+Each later chapter opens by recapping the previous ones — that's the carried context at work. The AsyncFlow chapter starts: "In previous chapters, we learned how to build asynchronous single steps (`AsyncNode`), process batches of items concurrently (`AsyncParallelBatchNode`), and orchestrate synchronous steps into workflows (`Flow`)."
